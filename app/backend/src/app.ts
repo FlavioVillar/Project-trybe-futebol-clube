@@ -25,7 +25,7 @@ class App {
     this.app.use(express.json());
     this.app.use(accessControl);
     this.app.use(router);
-    this.app.use(errorMiddleware);
+    this.app.use(errorMiddleware.errorHandler);
   }
 
   public start(PORT: string | number):void {
