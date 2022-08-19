@@ -26,6 +26,7 @@ class App {
     this.app.use(accessControl);
     this.app.use(router.loginRoute);
     this.app.use(router.teamsRoute);
+    this.app.use(router.matchesRoute);
     this.app.use(errorMiddleware.errorHandler);
   }
 
