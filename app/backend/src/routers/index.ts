@@ -1,8 +1,4 @@
-import { Router } from 'express';
 import loginRoute from './login.routes';
+import teamsRoute from './teams.routes';
 
-const router = Router();
-
-router.use(loginRoute);
-
-export default router;
+export default { loginRoute, teamsRoute };
