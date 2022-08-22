@@ -15,6 +15,7 @@ TeamsModel.init({
   teamName: {
     type: STRING,
     allowNull: false,
+    field: 'team_name',
   },
 }, {
   sequelize: db,

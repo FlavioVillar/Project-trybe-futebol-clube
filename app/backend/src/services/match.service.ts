@@ -3,28 +3,19 @@ import TeamsModel from '../database/models/teams.model';
 
 export default class MatchesService {
   static async getMatches(): Promise<any> {
-    const matches = await MatchesModel.findAll();
-    const teams = await TeamsModel.findAll();
-    const matchesWithTeams = matches.map((match) => {
-      const homeTeam = teams.find((team) => team.id === match.id);
-      const awayTeam = teams.find((team) => team.id === match.awayTeam);
-      return {
-        ...matches,
-        teamHome: { teamName: homeTeam?.teamName },
-        teamAway: { teamName: awayTeam?.teamName },
-      };
+    const matches = await MatchesModel.findAll({
+      include: [{
+        model: TeamsModel,
+        as: 'teamHome',
+        attributes: ['teamName'],
+      },
+      {
+        model: TeamsModel,
+        as: 'teamAway',
+        attributes: ['teamName'],
+      },
+      ],
     });
-    return matchesWithTeams;
+    return matches;
   }
 }
-
-// const matchesWithTeams = matches.map((match) => {
-//   const homeTeamName = teamsMap[homeTeam.id].name;
-//   const awayTeamName = teamsMap[awayTeam.id].name;
-//   return {
-//     ...matches,
-//     teamHome: { teamName: homeTeamName },
-//     teamAway: { teamName: awayTeamName },
-//   };
-// });
-// return matchesWithTeams;
