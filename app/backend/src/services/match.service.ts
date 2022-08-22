@@ -47,4 +47,9 @@ export default class MatchesService {
     });
     return match;
   }
+
+  static async updateMatch(id: string): Promise<any> {
+    const match = await MatchesModel.update({ inProgress: false }, { where: { id } });
+    return match;
+  }
 }
