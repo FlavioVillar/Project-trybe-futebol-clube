@@ -18,4 +18,21 @@ export default class MatchesService {
     });
     return matches;
   }
+
+  static async getMatchesQuery(query: boolean): Promise<any> {
+    const matches = await MatchesModel.findAll({
+      where: { inProgress: query },
+      include: [{
+        model: TeamsModel,
+        as: 'teamHome',
+        attributes: ['teamName'],
+      },
+      {
+        model: TeamsModel,
+        as: 'teamAway',
+        attributes: ['teamName'],
+      }],
+    });
+    return matches;
+  }
 }
