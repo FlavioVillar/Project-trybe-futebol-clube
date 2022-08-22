@@ -15,6 +15,9 @@ export default class UserService {
 
   static async validate(token: string): Promise<any> {
     const user = await JwtService.validateToken(token);
+    if (!user) {
+      throw new HttpException(StatusCodes.UNAUTHORIZED, 'Token must be a valid token');
+    }
     const getRole = await UsersModel.findOne({ where: { email: user.email } });
 
     return { role: getRole?.role };

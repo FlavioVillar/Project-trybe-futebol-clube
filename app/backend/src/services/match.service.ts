@@ -3,6 +3,8 @@ import MatchesModel from '../database/models/matches.model';
 import TeamsModel from '../database/models/teams.model';
 import HttpException from '../validation/HttpException';
 
+const messageUnauthorized = 'It is not possible to create a match with two equal teams';
+const messageNotFound = 'There is no team with such id!';
 export default class MatchesService {
   static async getMatches(): Promise<any> {
     const matches = await MatchesModel.findAll({
@@ -38,6 +40,17 @@ export default class MatchesService {
     return matches;
   }
 
+  static async validateTeam(homeTeam: any, awayTeam: any): Promise<any> {
+    const teamHome = await TeamsModel.findOne({ where: { teamName: homeTeam } });
+    const teamAway = await TeamsModel.findOne({ where: { teamName: awayTeam } });
+    if (!teamHome || !teamAway) {
+      throw new HttpException(
+        StatusCodes.NOT_FOUND,
+        'There is no team with such id!',
+      );
+    }
+  }
+
   static async createMatch(
     homeTeam: number,
     awayTeam: number,
@@ -45,14 +58,17 @@ export default class MatchesService {
     awayTeamGoals: number,
   ): Promise<any> {
     if (homeTeam === awayTeam) {
-      throw new HttpException(
-        StatusCodes.UNAUTHORIZED,
-        'It is not possible to create a match with two equal teams',
-      );
+      throw new HttpException(StatusCodes.UNAUTHORIZED, messageUnauthorized);
     }
+
+    const teamHome = await TeamsModel.findOne({ where: { teamName: homeTeam } });
+    const teamAway = await TeamsModel.findOne({ where: { teamName: awayTeam } });
+    if (!teamHome || !teamAway) {
+      throw new HttpException(StatusCodes.NOT_FOUND, messageNotFound);
+    }
+
     const match = await MatchesModel.create({
-      homeTeam, awayTeam, homeTeamGoals, awayTeamGoals, inProgress: true,
-    });
+      homeTeam, awayTeam, homeTeamGoals, awayTeamGoals, inProgress: true });
     return match;
   }
 
