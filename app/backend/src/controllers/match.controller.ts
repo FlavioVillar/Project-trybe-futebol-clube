@@ -36,7 +36,6 @@ export default class MatchController {
   static async updateMatch(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const { id } = req.params;
-      // const { homeTeamGoals, awayTeamGoals } = req.body;
       await MatchService.updateMatch(id);
       res.status(200).json({ message: 'Finished' });
     } catch (error) {

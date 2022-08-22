@@ -1,5 +1,7 @@
+import { StatusCodes } from 'http-status-codes';
 import MatchesModel from '../database/models/matches.model';
 import TeamsModel from '../database/models/teams.model';
+import HttpException from '../validation/HttpException';
 
 export default class MatchesService {
   static async getMatches(): Promise<any> {
@@ -42,6 +44,12 @@ export default class MatchesService {
     homeTeamGoals: number,
     awayTeamGoals: number,
   ): Promise<any> {
+    if (homeTeam === awayTeam) {
+      throw new HttpException(
+        StatusCodes.UNAUTHORIZED,
+        'It is not possible to create a match with two equal teams',
+      );
+    }
     const match = await MatchesModel.create({
       homeTeam, awayTeam, homeTeamGoals, awayTeamGoals, inProgress: true,
     });
