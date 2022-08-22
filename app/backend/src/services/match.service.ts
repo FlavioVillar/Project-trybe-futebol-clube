@@ -35,4 +35,16 @@ export default class MatchesService {
     });
     return matches;
   }
+
+  static async createMatch(
+    homeTeam: number,
+    awayTeam: number,
+    homeTeamGoals: number,
+    awayTeamGoals: number,
+  ): Promise<any> {
+    const match = await MatchesModel.create({
+      homeTeam, awayTeam, homeTeamGoals, awayTeamGoals, inProgress: true,
+    });
+    return match;
+  }
 }
