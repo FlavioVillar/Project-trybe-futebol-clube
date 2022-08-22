@@ -5,6 +5,7 @@ import LoginMiddleware from '../middlewares/login.middleware';
 const router = Router();
 
 router.post('/login', LoginMiddleware, UserController.sigIn);
+router.get('/login/validate', UserController.validate);
 // para login validate
 //  https://stackoverflow.com/questions/7042340/error-cant-set-headers-after-they-are-sent-to-the-client
 export default router;

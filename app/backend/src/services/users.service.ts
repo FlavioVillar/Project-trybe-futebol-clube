@@ -12,4 +12,14 @@ export default class UserService {
     const token = JwtService.createToken({ email });
     return token;
   }
+
+  static async validate(token: string): Promise<any> {
+    const user = await JwtService.validateToken(token);
+    const getRole = await UsersModel.findOne({ where: { email: user.email } });
+    console.log('getRole', getRole);
+
+    return { role: getRole?.role };
+
+    // return user;
+  }
 }

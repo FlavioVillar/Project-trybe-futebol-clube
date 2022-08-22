@@ -10,4 +10,14 @@ export default class UserController {
       next(error);
     }
   }
+
+  static async validate(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const getToken = req.headers.authorization || '';
+      const user = await UserService.validate(getToken);
+      res.status(200).json(user);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
