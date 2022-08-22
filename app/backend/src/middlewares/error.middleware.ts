@@ -1,5 +1,6 @@
 import { ErrorRequestHandler, Request, Response, NextFunction } from 'express';
 import StatusCodes from 'http-status-codes';
+import { JsonWebTokenError } from 'jsonwebtoken';
 import HttpException from '../validation/HttpException';
 
 class ErrorMiddleware {
@@ -9,8 +10,10 @@ class ErrorMiddleware {
 
     if (err instanceof HttpException) {
       res.status(err.statusCode).json({ message: err.message });
+    } else if (err instanceof JsonWebTokenError) {
+      res.status(StatusCodes.UNAUTHORIZED).json({ message: 'Token must be a valid token' });
     } else {
-      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: err.message });
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: 'Internal server error' });
     }
   };
 }

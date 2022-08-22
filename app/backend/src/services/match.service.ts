@@ -40,17 +40,6 @@ export default class MatchesService {
     return matches;
   }
 
-  static async validateTeam(homeTeam: any, awayTeam: any): Promise<any> {
-    const teamHome = await TeamsModel.findOne({ where: { teamName: homeTeam } });
-    const teamAway = await TeamsModel.findOne({ where: { teamName: awayTeam } });
-    if (!teamHome || !teamAway) {
-      throw new HttpException(
-        StatusCodes.NOT_FOUND,
-        'There is no team with such id!',
-      );
-    }
-  }
-
   static async createMatch(
     homeTeam: number,
     awayTeam: number,
@@ -61,8 +50,8 @@ export default class MatchesService {
       throw new HttpException(StatusCodes.UNAUTHORIZED, messageUnauthorized);
     }
 
-    const teamHome = await TeamsModel.findOne({ where: { teamName: homeTeam } });
-    const teamAway = await TeamsModel.findOne({ where: { teamName: awayTeam } });
+    const teamHome = await TeamsModel.findOne({ where: { id: homeTeam } });
+    const teamAway = await TeamsModel.findOne({ where: { id: awayTeam } });
     if (!teamHome || !teamAway) {
       throw new HttpException(StatusCodes.NOT_FOUND, messageNotFound);
     }
