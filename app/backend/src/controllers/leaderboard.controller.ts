@@ -11,4 +11,14 @@ export default class LeaderboardController {
       next(error);
     }
   }
+
+  static async getAwayTeamClassification(req: Request, res: Response, next: NextFunction)
+    : Promise<void> {
+    try {
+      const awayTeamClassification = await LeaderboardService.getAwayTeamClassification();
+      res.status(200).json(awayTeamClassification);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
