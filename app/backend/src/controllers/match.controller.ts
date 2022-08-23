@@ -42,4 +42,16 @@ export default class MatchController {
       next(error);
     }
   }
+
+  static async updateMatchInProgress(req: Request, res: Response, next: NextFunction):
+  Promise<void> {
+    try {
+      const { id } = req.params;
+      const { homeTeamGoals, awayTeamGoals } = req.body;
+      await MatchService.updateMatchInProgress(id, homeTeamGoals, awayTeamGoals);
+      res.status(200).json({ message: 'Partida atualizada' });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
