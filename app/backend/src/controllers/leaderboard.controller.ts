@@ -21,4 +21,14 @@ export default class LeaderboardController {
       next(error);
     }
   }
+
+  static async getTotalClassification(req: Request, res: Response, next: NextFunction)
+    : Promise<void> {
+    try {
+      const totalClassification = await LeaderboardService.getTotalClassification();
+      res.status(200).json(totalClassification);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
