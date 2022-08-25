@@ -1,5 +1,4 @@
 import { StatusCodes } from 'http-status-codes';
-// import ILoginUser from '../interfaces/ILoginUser.interface';
 import UserRepository from '../repository/User.repository';
 import HttpException from '../validation/HttpException';
 import JwtService from './jwt.service';
@@ -14,9 +13,11 @@ export default class UserService {
     return token;
   }
 
-  static async validate(token: string): Promise<string> {
+  static async validate(token: string) {
     const user = await JwtService.validateToken(token);
-    const getRole = await UserRepository.getByEmail(user.email);
+    console.log('user', user);
+
+    const getRole = await UserRepository.getByEmail(user);
 
     return getRole?.role as string;
   }

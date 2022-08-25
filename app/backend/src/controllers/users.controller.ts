@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from 'express';
-// import User from '../entities/User';
 import UserService from '../services/users.service';
 
 export default class UserController {
@@ -14,9 +13,9 @@ export default class UserController {
 
   static async validate(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const getToken = req.headers.authorization || '';
-      const user = await UserService.validate(getToken);
-      res.status(200).json(user);
+      const token = req.headers.authorization || '';
+      const role = await UserService.validate(token);
+      res.status(200).json({ role });
     } catch (error) {
       next(error);
     }
