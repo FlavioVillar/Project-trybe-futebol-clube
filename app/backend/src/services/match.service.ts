@@ -23,6 +23,11 @@ export default class MatchesService {
     return matches;
   }
 
+  static async getAllFinishedMatches(): Promise<any> {
+    const matches = await MatchesModel.findAll({ where: { inProgress: false } });
+    return matches;
+  }
+
   static async getMatchesQuery(query: boolean): Promise<any> {
     const matches = await MatchesModel.findAll({
       where: { inProgress: query },
