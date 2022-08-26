@@ -1,9 +1,13 @@
 import { Router } from 'express';
-import TeamController from '../controllers/teams.controller';
+import TeamController from '../controllers/teams/teams.controller';
+import TeamService from '../services/teams/teams.service';
+import TeamRepository from '../repository/teams/teams.repository';
 
 const router = Router();
 
-router.get('/teams/:id', TeamController.getTeamById);
-router.get('/teams', TeamController.getTeams);
+const teamController = new TeamController(new TeamService(new TeamRepository()));
+
+router.get('/teams/:id', teamController.getTeamById);
+router.get('/teams', teamController.getTeams);
 
 export default router;
