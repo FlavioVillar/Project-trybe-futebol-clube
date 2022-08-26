@@ -10,8 +10,8 @@ export default class JwtService {
     return token;
   }
 
-  static verifyToken(token: string) {
+  static verifyToken<T>(token: string): T {
     const email = verify(token, process.env.JWT_SECRET || 'secret');
-    return email;
+    return email as T;
   }
 }
