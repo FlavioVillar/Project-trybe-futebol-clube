@@ -1,8 +1,8 @@
 import { StatusCodes } from 'http-status-codes';
-import UsersModel from '../database/models/user.model';
-import HttpException from '../validation/HttpException';
+import UsersModel from '../../database/models/user.model';
+import HttpException from '../../validation/HttpException';
 import ILoginRepository from './ILoginRepository.interface';
-import Login from '../entities/login/Login';
+import Login from '../../entities/login/Login';
 
 export default class LoginRepository implements ILoginRepository {
   constructor(private model = UsersModel) { }

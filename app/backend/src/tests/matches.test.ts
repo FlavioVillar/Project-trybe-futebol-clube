@@ -7,7 +7,7 @@ import Example from '../database/models/ExampleModel';
 import { Response } from 'superagent';
 import MatchController from '../controllers/match.controller';
 import getMatchesMock from './utils/getMatchesMock';
-import JwtService from '../services/jwt.service';
+import JwtService from '../services/jwt/jwt.service';
 
 chai.use(chaiHttp);
 
@@ -101,7 +101,7 @@ describe('Matches', () => {
 
   describe('testa função createMatch', () => {    
     beforeEach(() => {
-      Sinon.stub(JwtService, 'validateToken').returns({ email: 'admin@admin.com' } as any);
+      Sinon.stub(JwtService, 'verifyToken').returns({ email: 'admin@admin.com' } as any);
       Sinon.stub(MatchController, 'createMatch').returns({
   "id": 1,
   "homeTeam": 16,

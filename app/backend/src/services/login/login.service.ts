@@ -1,5 +1,5 @@
 import JwtService from '../jwt/jwt.service';
-import LoginRepository from '../../repository/login.repository';
+import LoginRepository from '../../repository/login/login.repository';
 import { ILoginService } from './ILoginService';
 import Login from '../../entities/login/Login';
 
