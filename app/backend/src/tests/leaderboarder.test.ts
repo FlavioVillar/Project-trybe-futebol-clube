@@ -5,7 +5,7 @@ import chaiHttp = require('chai-http');
 import { app } from '../app';
 import Example from '../database/models/ExampleModel';
 import { Response } from 'superagent';
-import teamsController from '../controllers/teams.controller';
+import teamsController from '../controllers/teams/teams.controller';
 import getTeamsMock from './utils/getTeamsMock';
 import LeaderboardController from '../controllers/leaderboard.controller';
 import homeResultsMock from './utils/homeResultsMock';

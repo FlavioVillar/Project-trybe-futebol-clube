@@ -5,7 +5,7 @@ import chaiHttp = require('chai-http');
 import { app } from '../app';
 import Example from '../database/models/ExampleModel';
 import { Response } from 'superagent';
-import MatchController from '../controllers/match.controller';
+import Match from '../factories/Match.factory';
 import getMatchesMock from './utils/getMatchesMock';
 import JwtService from '../services/jwt/jwt.service';
 
@@ -16,12 +16,10 @@ const { expect } = chai;
 describe('Matches', () => { 
   describe('testa função getMatches', () => { 
     beforeEach(() => {
-      Sinon.stub(MatchController, 'getMatches').returns(getMatchesMock as any);
+      Sinon.stub(Match.controller(), 'getMatches' as any).returns(getMatchesMock as any);
     });
   
-    afterEach(() => {
-      Sinon.restore();
-    })
+    afterEach(() => {Sinon.restore()});
   
     it('Deve retornar status 200', async () => {
       const response = await chai.request(app)
@@ -50,14 +48,10 @@ describe('Matches', () => {
 
   describe('testa função updateMatches', () => {
     beforeEach(() => {
-      Sinon.stub(MatchController, 'updateMatch').returns(getMatchesMock as any);
-    }
-    );
+      Sinon.stub(Match.controller(), 'updateMatch' as any).returns(getMatchesMock as any);
+    }),
   
-    afterEach(() => {
-      Sinon.restore();
-    }
-    );
+    afterEach(() => {Sinon.restore()});
   
     it('Deve retornar status 200', async () => {
       const response = await chai.request(app)
@@ -78,12 +72,10 @@ describe('Matches', () => {
 
   describe('testa validação do token', () => {
     beforeEach(() => {
-      Sinon.stub(MatchController, 'createMatch').returns({ id: 1 } as any);
+      Sinon.stub(Match.controller(), 'createMatch' as any).returns({ id: 1 } as any);      
     });
   
-    afterEach(() => {
-      Sinon.restore();
-    });
+    afterEach(() => {Sinon.restore()});
     
     it('Deve retornar uma mensagem de token invalido', async () => {
       const response = await chai.request(app)
@@ -102,7 +94,7 @@ describe('Matches', () => {
   describe('testa função createMatch', () => {    
     beforeEach(() => {
       Sinon.stub(JwtService, 'verifyToken').returns({ email: 'admin@admin.com' } as any);
-      Sinon.stub(MatchController, 'createMatch').returns({
+      Sinon.stub(Match.controller(), 'createMatch' as any).returns({
   "id": 1,
   "homeTeam": 16,
   "homeTeamGoals": 2,
@@ -111,11 +103,8 @@ describe('Matches', () => {
   "inProgress": true,
 } as any);
     });
-  
-    afterEach(() => {
-      Sinon.restore();
-    }
-    );
+
+      afterEach(() => { Sinon.restore() });
   
     it('Deve retornar uma mensagem de validação de times repetidos', async () => {
       const response = await chai.request(app)

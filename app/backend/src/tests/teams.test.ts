@@ -5,7 +5,7 @@ import chaiHttp = require('chai-http');
 import { app } from '../app';
 import Example from '../database/models/ExampleModel';
 import { Response } from 'superagent';
-import teamsController from '../controllers/teams.controller';
+import Team from '../factories/Teams.factory';
 import getTeamsMock from './utils/getTeamsMock';
 
 chai.use(chaiHttp);
@@ -14,7 +14,7 @@ const { expect } = chai;
 
 describe('Teams', () => {
   beforeEach(() => {
-    Sinon.stub(teamsController, 'getTeams').returns(getTeamsMock as any);
+    Sinon.stub(Team.controller(), 'getTeams' as any).returns(getTeamsMock as any);
 
   });
 
@@ -40,7 +40,7 @@ describe('Teams', () => {
 
   it('Deve retornar um time pelo id', async () => {
     beforeEach(() => {
-    Sinon.stub(teamsController, 'getTeamById').returns(getTeamsMock as any);
+    Sinon.stub(Team.controller(), 'getTeamById' as any).returns(getTeamsMock as any);
 
   });
 
