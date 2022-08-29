@@ -1,8 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { ILoginService } from '../../services/login/ILoginService';
-import { ILoginController } from './ILoginController.interface';
 
-export default class LoginController implements ILoginController {
+export default class LoginController {
   constructor(private loginService: ILoginService) {
     this.login = this.login.bind(this);
     this.validate = this.validate.bind(this);

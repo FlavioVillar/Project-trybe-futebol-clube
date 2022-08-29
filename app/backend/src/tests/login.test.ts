@@ -13,7 +13,7 @@ const { expect } = chai;
 
 const createUserLoginMock = {
   email: 'admin@admin.com' as string,
-  password: 'scret_admin' as string,
+  password: 'secret_admin' as string,
 }
 
 const createUserLoginMockInvalid = {

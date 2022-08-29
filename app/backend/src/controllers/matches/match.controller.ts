@@ -1,8 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { IMatchesService } from '../../services/matches/IMatchService';
-import { IMatchesController } from './IMatchesController';
 
-export default class MatchController implements IMatchesController {
+export default class MatchController {
   constructor(private matchService: IMatchesService) {
     this.getMatches = this.getMatches.bind(this);
     this.createMatch = this.createMatch.bind(this);

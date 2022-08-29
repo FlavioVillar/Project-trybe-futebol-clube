@@ -1,8 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { ITeamsService } from '../../services/teams/ITeamsService';
-import { ITeamsController } from './ITeamsController';
 
-export default class TeamController implements ITeamsController {
+export default class TeamController {
   constructor(private teamsService: ITeamsService) {
     this.getTeamById = this.getTeamById.bind(this);
     this.getTeams = this.getTeams.bind(this);
