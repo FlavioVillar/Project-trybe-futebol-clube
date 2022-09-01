@@ -91,11 +91,16 @@ export default class MatchesRepository implements IMatchesRepository {
 
   static async getMatchByField(field: number | undefined, local: string) {
     if (local === 'homeTeam') {
-      const matches = await MatchesModel.findAll({ where: { homeTeam: field, inProgress: false } });
-      return matches;
-    } if (local === 'awayTeam') {
-      const matches = await MatchesModel.findAll({ where: { awayTeam: field, inProgress: false } });
-      return matches;
+      return MatchesModel
+        .findAll({ where: ({ homeTeam: field, inProgress: false }) });
+    }
+    if (local === 'awayTeam') {
+      return MatchesModel
+        .findAll({ where: { awayTeam: field, inProgress: false } });
+    }
+    if (local === 'total') {
+      return MatchesModel
+        .findAll({ where: { total: field, inProgress: false } });
     }
   }
 }

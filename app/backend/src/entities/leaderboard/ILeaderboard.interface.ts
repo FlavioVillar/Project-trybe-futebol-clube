@@ -25,8 +25,9 @@ export interface IMatchLeaderboard {
 }
 
 export interface ILeaderboardPoints {
-  wins: 1 | 0;
-  draws: 1 | 0;
-  loses: 1 | 0;
-  points: 0 | 1 | 3;
+  totalVictories: number;
+  totalDraws: number;
+  totalLosses: number;
+  goalsFavor: number;
+  goalsOwn: number;
 }

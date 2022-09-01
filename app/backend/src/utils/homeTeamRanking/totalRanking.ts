@@ -1,4 +1,7 @@
-import { ILeaderboardResult } from '../../entities/leaderboard/ILeaderboard.interface';
+import {
+  ILeaderboardResult,
+  ILeaderboardPoints,
+} from '../../entities/leaderboard/ILeaderboard.interface';
 import TeamsModel from '../../database/models/teams.model';
 import MatchesRepository from '../../repository/matches/matches.repository';
 
@@ -22,6 +25,32 @@ export default class Ranking {
       return count;
     });
     return count;
+  }
+
+  static async getTotalRanking(teams: TeamsModel) {
+    const count = { totalVictories: 0, totalDraws: 0, totalLosses: 0, goalsFavor: 0, goalsOwn: 0 };
+    const home = await Ranking.countGames(teams.id, 'homeTeam');
+    const away = await Ranking.countGames(teams.id, 'awayTeam');
+    count.goalsFavor += home.goalsFavor + away.goalsFavor;
+    count.goalsOwn += home.goalsOwn + away.goalsOwn;
+    count.totalVictories += home.totalVictories + away.totalVictories;
+    count.totalDraws += home.totalDraws + away.totalDraws;
+    count.totalLosses += home.totalLosses + away.totalLosses;
+    const board = {
+      name: teams.teamName,
+      totalPoints: (count.totalVictories * 3) + (count.totalDraws),
+      totalGames: count.totalVictories + count.totalDraws + count.totalLosses,
+      totalVictories: count.totalVictories,
+      totalDraws: count.totalDraws,
+      totalLosses: count.totalLosses,
+      goalsFavor: count.goalsFavor,
+      goalsOwn: count.goalsOwn,
+      goalsBalance: count.goalsFavor - count.goalsOwn,
+      efficiency: ((((count.totalVictories * 3) + (count.totalDraws))
+        / ((count.totalVictories + count.totalDraws + count.totalLosses) * 3)) * 100).toFixed(2),
+    };
+
+    return board;
   }
 
   static async calcRanking(teams: TeamsModel, local: string) {
@@ -55,9 +84,15 @@ export default class Ranking {
 
   static async finalList(local: string) {
     const getAllTeams = await TeamsModel.findAll({ attributes: ['id', 'teamName'] });
+    if (local === 'total') {
+      const getFinalList = await Promise.all(getAllTeams
+        .map(async (teams) => Ranking.getTotalRanking(teams)));
+      const results = await Ranking.sortBoard(getFinalList);
+      return results;
+    }
+
     const getFinalList = await Promise.all(getAllTeams
       .map(async (teams) => Ranking.calcRanking(teams, local)));
-
     const results = await Ranking.sortBoard(getFinalList);
     return results;
   }
