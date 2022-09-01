@@ -6,9 +6,11 @@ import TeamsModel from '../../database/models/teams.model';
 import MatchesRepository from '../../repository/matches/matches.repository';
 
 export default class Ranking {
-  static async countGames(teamId: number, local: string) {
+  static async countGames(teams: TeamsModel, local: string) {
+    const getAllMatches = await MatchesRepository.getMatchByField(teams.id, local);
+
     const count = { totalVictories: 0, totalDraws: 0, totalLosses: 0, goalsFavor: 0, goalsOwn: 0 };
-    const getAllMatches = await MatchesRepository.getMatchByField(teamId, local);
+
     getAllMatches?.map((match) => {
       if (local === 'homeTeam') {
         count.goalsFavor += match.homeTeamGoals; count.goalsOwn += match.awayTeamGoals;
@@ -24,40 +26,24 @@ export default class Ranking {
       }
       return count;
     });
-    return count;
+    return Ranking.calcRanking(count as ILeaderboardPoints, teams.teamName);
   }
 
   static async getTotalRanking(teams: TeamsModel) {
     const count = { totalVictories: 0, totalDraws: 0, totalLosses: 0, goalsFavor: 0, goalsOwn: 0 };
-    const home = await Ranking.countGames(teams.id, 'homeTeam');
-    const away = await Ranking.countGames(teams.id, 'awayTeam');
+    const home = await Ranking.countGames(teams, 'homeTeam');
+    const away = await Ranking.countGames(teams, 'awayTeam');
     count.goalsFavor += home.goalsFavor + away.goalsFavor;
     count.goalsOwn += home.goalsOwn + away.goalsOwn;
     count.totalVictories += home.totalVictories + away.totalVictories;
     count.totalDraws += home.totalDraws + away.totalDraws;
     count.totalLosses += home.totalLosses + away.totalLosses;
-    const board = {
-      name: teams.teamName,
-      totalPoints: (count.totalVictories * 3) + (count.totalDraws),
-      totalGames: count.totalVictories + count.totalDraws + count.totalLosses,
-      totalVictories: count.totalVictories,
-      totalDraws: count.totalDraws,
-      totalLosses: count.totalLosses,
-      goalsFavor: count.goalsFavor,
-      goalsOwn: count.goalsOwn,
-      goalsBalance: count.goalsFavor - count.goalsOwn,
-      efficiency: ((((count.totalVictories * 3) + (count.totalDraws))
-        / ((count.totalVictories + count.totalDraws + count.totalLosses) * 3)) * 100).toFixed(2),
-    };
-
-    return board;
+    return Ranking.calcRanking(count as ILeaderboardPoints, teams.teamName);
   }
 
-  static async calcRanking(teams: TeamsModel, local: string) {
-    const score = await Ranking.countGames(teams.id, local);
-
+  static async calcRanking(score: ILeaderboardPoints, teamName: string) {
     const board = {
-      name: teams.teamName,
+      name: teamName,
       totalPoints: (score.totalVictories * 3) + (score.totalDraws),
       totalGames: score.totalVictories + score.totalDraws + score.totalLosses,
       totalVictories: score.totalVictories,
@@ -69,7 +55,6 @@ export default class Ranking {
       efficiency: ((((score.totalVictories * 3) + (score.totalDraws))
         / ((score.totalVictories + score.totalDraws + score.totalLosses) * 3)) * 100).toFixed(2),
     };
-
     return board;
   }
 
@@ -83,17 +68,14 @@ export default class Ranking {
   }
 
   static async finalList(local: string) {
-    const getAllTeams = await TeamsModel.findAll({ attributes: ['id', 'teamName'] });
+    const teams = await TeamsModel.findAll({ attributes: ['id', 'teamName'] });
     if (local === 'total') {
-      const getFinalList = await Promise.all(getAllTeams
-        .map(async (teams) => Ranking.getTotalRanking(teams)));
-      const results = await Ranking.sortBoard(getFinalList);
+      const list = await Promise.all(teams.map(async (item) => Ranking.getTotalRanking(item)));
+      const results = await Ranking.sortBoard(list);
       return results;
     }
-
-    const getFinalList = await Promise.all(getAllTeams
-      .map(async (teams) => Ranking.calcRanking(teams, local)));
-    const results = await Ranking.sortBoard(getFinalList);
+    const list = await Promise.all(teams.map(async (item) => Ranking.countGames(item, local)));
+    const results = await Ranking.sortBoard(list);
     return results;
   }
 }
