@@ -2,7 +2,7 @@ import {
   ILeaderboardResult,
   ICountRanking,
 } from '../entities/leaderboard/ILeaderboard.interface';
-import { ITeams } from '../entities/teams/ITeams.interface';
+import { ITeams } from '../interfaces/teams/ITeams.interface';
 import MatchesRepository from '../repositories/matches/matches.repository';
 
 export default class LeaderBoard {

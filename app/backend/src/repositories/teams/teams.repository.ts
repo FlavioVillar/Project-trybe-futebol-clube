@@ -1,19 +1,19 @@
 import TeamsModel from '../../database/models/teams.model';
 import { ITeamsRepository } from './ITeamsRepository';
-import { ITeams } from '../../entities/teams/ITeams.interface';
-import Teams from '../../entities/teams/Teams';
+import { ITeams } from '../../interfaces/teams/ITeams.interface';
+// import Teams from '../../entities/teams/Teams';
 
 export default class TeamsRepository implements ITeamsRepository {
   constructor(private model = TeamsModel) { }
 
-  async getTeams(): Promise<Teams[]> {
+  async getTeams(): Promise<ITeams[]> {
     const teams = await this.model.findAll();
     return teams;
   }
 
-  async getTeamById(id: string): Promise<Teams> {
+  async getTeamById(id: string): Promise<ITeams> {
     const team = await this.model.findOne({ where: { id } });
-    return team as Teams;
+    return team as ITeams;
   }
 
   static async getTeamByAttributes(): Promise<ITeams[]> {

@@ -8,5 +8,4 @@ export interface IMatchesRepository {
   updateMatchInProgress(matchId: string, goals: Match): Promise<void>;
   getMatchesQuery(query: boolean): Promise<Match[]>;
   getMatchByStatus(): Promise<Match[]>;
-  // getMatchByField(field: number | undefined): Promise<Match[]>;
 }

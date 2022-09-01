@@ -1,7 +1,7 @@
 import JwtService from '../jwt/jwt.service';
 import LoginRepository from '../../repositories/login/login.repository';
 import { ILoginService } from './ILoginService';
-import { IUser } from '../../interfaces/IUser.interface';
+import { IUser } from '../../interfaces/users/IUser.interface';
 
 export default class LoginService implements ILoginService {
   constructor(private loginRepository: LoginRepository) { }

@@ -1,6 +1,6 @@
-import Teams from '../../entities/teams/Teams';
+import { ITeams } from '../../interfaces/teams/ITeams.interface';
 
 export interface ITeamsRepository {
-  getTeams(): Promise<Teams[]>;
-  getTeamById(id: string): Promise<Teams>;
+  getTeams(): Promise<ITeams[]>;
+  getTeamById(id: string): Promise<ITeams>;
 }

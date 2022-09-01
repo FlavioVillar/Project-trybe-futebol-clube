@@ -2,7 +2,7 @@ import { StatusCodes } from 'http-status-codes';
 import UsersModel from '../../database/models/user.model';
 import HttpException from '../../validation/HttpException';
 import ILoginRepository from './ILoginRepository.interface';
-import { IUser } from '../../interfaces/IUser.interface';
+import { IUser } from '../../interfaces/users/IUser.interface';
 
 export default class LoginRepository implements ILoginRepository {
   constructor(private model = UsersModel) { }
