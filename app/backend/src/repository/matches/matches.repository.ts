@@ -13,7 +13,7 @@ export default class MatchesRepository implements IMatchesRepository {
   constructor(
     private matchesModel = MatchesModel,
     private teamsModel = TeamsModel,
-  ) {}
+  ) { }
 
   async getMatches(): Promise<Match[]> {
     const matches = await this.matchesModel.findAll({
@@ -87,5 +87,15 @@ export default class MatchesRepository implements IMatchesRepository {
   async getMatchByStatus(): Promise<Match[]> {
     const matches = await this.matchesModel.findAll({ where: { inProgress: false } });
     return matches;
+  }
+
+  static async getMatchByField(field: number | undefined, local: string) {
+    if (local === 'homeTeam') {
+      const matches = await MatchesModel.findAll({ where: { homeTeam: field, inProgress: false } });
+      return matches;
+    } if (local === 'awayTeam') {
+      const matches = await MatchesModel.findAll({ where: { awayTeam: field, inProgress: false } });
+      return matches;
+    }
   }
 }

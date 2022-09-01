@@ -2,7 +2,7 @@ import MatchesModel from '../database/models/matches.model';
 import TeamsModel from '../database/models/teams.model';
 
 export default class HomeTeamRaking {
-  static async countGames(team: number): Promise<any> {
+  static async countGames(team: number) {
     let totalVictories = 0;
     let totalDraws = 0;
     let totalLosses = 0;
@@ -23,7 +23,7 @@ export default class HomeTeamRaking {
     return { totalVictories, totalDraws, totalLosses };
   }
 
-  static async getGameData(team: number): Promise<any> {
+  static async getGameData(team: number) {
     let goalsFavor = 0;
     let goalsOwn = 0;
     let goalsBalance = 0;
@@ -40,10 +40,9 @@ export default class HomeTeamRaking {
     return { goalsFavor, goalsOwn, goalsBalance };
   }
 
-  static async getHomeTeamClassification(team: number): Promise<any> {
+  static async getHomeTeamClassification(team: number) {
     const [name] = await TeamsModel.findAll({ where: { id: team } });
-    const { totalVictories, totalDraws, totalLosses } = await
-    HomeTeamRaking.countGames(team);
+    const { totalVictories, totalDraws, totalLosses } = await HomeTeamRaking.countGames(team);
     const { goalsFavor, goalsOwn } = await HomeTeamRaking.getGameData(team);
 
     return {
@@ -62,7 +61,7 @@ export default class HomeTeamRaking {
     };
   }
 
-  static async finalList(team: number[]): Promise<any> {
+  static async finalList(team: number[]) {
     const listTeams = await Promise.all(team
       .map(async (item) => HomeTeamRaking.getHomeTeamClassification(item)));
 
