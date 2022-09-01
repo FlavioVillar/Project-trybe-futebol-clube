@@ -7,7 +7,7 @@ import Example from '../database/models/ExampleModel';
 import { Response } from 'superagent';
 import teamsController from '../controllers/teams/teams.controller';
 import getTeamsMock from './utils/getTeamsMock';
-import LeaderboardController from '../controllers/leaderboard.controller';
+import LeaderboardController from '../controllers/leaderboard/leaderboard.controller';
 import homeResultsMock from './utils/homeResultsMock';
 import awayResultsMock from './utils/awayResultsMock';
 import leaderboardResultsMock from './utils/leaderboardResultsMock';
@@ -19,14 +19,14 @@ const { expect } = chai;
 describe('Leaderboarder', () => {
   describe('Teste da função de classificação de mandante de jogo', () => {
   beforeEach(() => {
-    Sinon.stub(LeaderboardController, 'getHomeTeamClassification').returns(homeResultsMock as any);
+    Sinon.stub(LeaderboardController, 'getHomeTeamRanking').returns(homeResultsMock as any);
   });
 
   afterEach(() => {
     Sinon.restore();
   });
 
-  it('Deve retornar status 200 para getHomeTeamClassification', async () => {
+  it('Deve retornar status 200 para getHomeTeamRanking', async () => {
     const response = await chai.request(app)
       .get('/leaderboard/home')
       .send({});
@@ -45,13 +45,13 @@ describe('Leaderboarder', () => {
 
   describe('Teste da função de classificação de visitante de jogo', () => {
     beforeEach(() => {
-    Sinon.stub(LeaderboardController, 'getAwayTeamClassification').returns(awayResultsMock as any);
+    Sinon.stub(LeaderboardController, 'getAwayTeamRanking').returns(awayResultsMock as any);
   });
 
   afterEach(() => {
     Sinon.restore();
   });
-    it('Deve retornar status 200 para getAwayTeamClassification', async () => {
+    it('Deve retornar status 200 para getAwayTeamRanking', async () => {
       const response = await chai.request(app)
         .get('/leaderboard/away')
         .send({});
@@ -71,13 +71,13 @@ describe('Leaderboarder', () => {
 
   describe('Teste da função de classificação geral do campeonato', () => {
     beforeEach(() => {
-    Sinon.stub(LeaderboardController, 'getTotalClassification').returns(leaderboardResultsMock as any);
+    Sinon.stub(LeaderboardController, 'getTotalRanking').returns(leaderboardResultsMock as any);
   });
 
   afterEach(() => {
     Sinon.restore();
   });
-    it('Deve retornar status 200 para getTotalClassification', async () => {
+    it('Deve retornar status 200 para getTotalRanking', async () => {
       const response = await chai.request(app)
         .get('/leaderboard')
         .send({});

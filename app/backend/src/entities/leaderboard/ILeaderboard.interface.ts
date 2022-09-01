@@ -31,3 +31,11 @@ export interface ILeaderboardPoints {
   goalsFavor: number;
   goalsOwn: number;
 }
+
+export interface ICountRanking {
+  wins: number;
+  draws: number;
+  losses: number;
+  homeGols: number;
+  awayGols: number;
+}

@@ -2,12 +2,12 @@
   "compilerOptions": {
     "target": "es2019",
     "module": "commonjs",
-    "sourceMap": true,                     
+    "sourceMap": true,
     "outDir": "./build",
     "rootDir": "./src",
     "strict": true,
     "moduleResolution": "node",
-    "baseUrl": ".", 
+    "baseUrl": ".",
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "experimentalDecorators": true,
@@ -15,9 +15,15 @@
     "strictPropertyInitialization": false,
     "skipLibCheck": true,
     "paths": {
-      "*": ["node_modules/*"]
+      "*": [
+        "node_modules/*"
+      ]
     }
   },
-  "include": ["src/**/*"],
-  "exclude": ["src/tests"]
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "src/tests"
+  ]
 }

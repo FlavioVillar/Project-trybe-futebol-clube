@@ -1,5 +1,6 @@
 import TeamsModel from '../../database/models/teams.model';
 import { ITeamsRepository } from './ITeamsRepository';
+import { ITeams } from '../../entities/teams/ITeams.interface';
 import Teams from '../../entities/teams/Teams';
 
 export default class TeamsRepository implements ITeamsRepository {
@@ -13,5 +14,10 @@ export default class TeamsRepository implements ITeamsRepository {
   async getTeamById(id: string): Promise<Teams> {
     const team = await this.model.findOne({ where: { id } });
     return team as Teams;
+  }
+
+  static async getTeamByAttributes(): Promise<ITeams[]> {
+    const teams = await TeamsModel.findAll({ attributes: ['id', 'teamName'] });
+    return teams as ITeams[];
   }
 }
