@@ -1,6 +1,6 @@
-import Login from '../../entities/login/Login';
+import { IUser } from '../../interfaces/IUser.interface';
 
 export interface ILoginService {
-  login(email: Login): Promise<string>;
-  validate(token: string): Promise<{ role: string }>;
+  login(email: IUser): Promise<string>;
+  validate(token: string): Promise<IUser>;
 }

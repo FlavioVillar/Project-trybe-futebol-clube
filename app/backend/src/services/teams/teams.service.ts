@@ -1,4 +1,4 @@
-import { ITeamsRepository } from '../../repository/teams/ITeamsRepository';
+import { ITeamsRepository } from '../../repositories/teams/ITeamsRepository';
 import Teams from '../../entities/teams/Teams';
 import { ITeamsService } from './ITeamsService';
 

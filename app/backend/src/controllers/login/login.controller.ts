@@ -20,7 +20,7 @@ export default class LoginController {
     try {
       const getToken = req.headers.authorization || '';
       const user = await this.loginService.validate(getToken);
-      res.status(200).json(user);
+      res.status(200).json({ role: user.role });
     } catch (error) {
       next(error);
     }

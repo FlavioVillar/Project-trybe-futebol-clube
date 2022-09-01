@@ -1,4 +1,4 @@
-import { IMatchesRepository } from '../../repository/matches/IMatchesRepository';
+import { IMatchesRepository } from '../../repositories/matches/IMatchesRepository';
 import Match from '../../entities/matches/Match';
 import { IMatchCreate } from '../../entities/matches/IMatch.interface';
 import { IMatchesService } from './IMatchService';

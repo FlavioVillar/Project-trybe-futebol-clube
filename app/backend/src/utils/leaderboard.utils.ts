@@ -3,7 +3,7 @@ import {
   ICountRanking,
 } from '../entities/leaderboard/ILeaderboard.interface';
 import { ITeams } from '../entities/teams/ITeams.interface';
-import MatchesRepository from '../repository/matches/matches.repository';
+import MatchesRepository from '../repositories/matches/matches.repository';
 
 export default class LeaderBoard {
   static async countGames(teams: ITeams, local: string) {

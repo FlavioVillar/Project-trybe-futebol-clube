@@ -1,5 +1,5 @@
 import { ILeaderboardResult } from '../../entities/leaderboard/ILeaderboard.interface';
-import TeamsRepository from '../../repository/teams/teams.repository';
+import TeamsRepository from '../../repositories/teams/teams.repository';
 import LeaderBoard from '../../utils/leaderboard.utils';
 
 export default class LeaderboardService {
