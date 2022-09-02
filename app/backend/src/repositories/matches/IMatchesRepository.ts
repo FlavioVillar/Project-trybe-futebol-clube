@@ -7,4 +7,5 @@ export interface IMatchesRepository {
   updateMatchInProgress(matchId: string, goals: IMatch): Promise<void>;
   getMatchesQuery(query: boolean): Promise<IMatch[]>;
   getMatchByStatus(): Promise<IMatch[]>;
+  getMatchByField(teamId: number | undefined, local: string): Promise<IMatch[]>;
 }

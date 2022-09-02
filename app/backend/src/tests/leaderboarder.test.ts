@@ -7,7 +7,7 @@ import Example from '../database/models/ExampleModel';
 import { Response } from 'superagent';
 import teamsController from '../controllers/teams/teams.controller';
 import getTeamsMock from './utils/getTeamsMock';
-import LeaderboardController from '../controllers/leaderboard/leaderboard.controller';
+import Leaderboard from '../factories/Leaderboard.factory';
 import homeResultsMock from './utils/homeResultsMock';
 import awayResultsMock from './utils/awayResultsMock';
 import leaderboardResultsMock from './utils/leaderboardResultsMock';
@@ -19,7 +19,7 @@ const { expect } = chai;
 describe('Leaderboarder', () => {
   describe('Teste da função de classificação de mandante de jogo', () => {
   beforeEach(() => {
-    Sinon.stub(LeaderboardController, 'getHomeTeamRanking').returns(homeResultsMock as any);
+    Sinon.stub(Leaderboard.controller(), 'getHomeTeamRanking').returns(homeResultsMock as any);
   });
 
   afterEach(() => {
@@ -45,7 +45,7 @@ describe('Leaderboarder', () => {
 
   describe('Teste da função de classificação de visitante de jogo', () => {
     beforeEach(() => {
-    Sinon.stub(LeaderboardController, 'getAwayTeamRanking').returns(awayResultsMock as any);
+    Sinon.stub(Leaderboard.controller(), 'getAwayTeamRanking').returns(awayResultsMock as any);
   });
 
   afterEach(() => {
@@ -71,7 +71,7 @@ describe('Leaderboarder', () => {
 
   describe('Teste da função de classificação geral do campeonato', () => {
     beforeEach(() => {
-    Sinon.stub(LeaderboardController, 'getTotalRanking').returns(leaderboardResultsMock as any);
+    Sinon.stub(Leaderboard.controller(), 'getTotalRanking').returns(leaderboardResultsMock as any);
   });
 
   afterEach(() => {

@@ -1,13 +1,15 @@
 import {
   ILeaderboardResult,
   ICountRanking,
-} from '../entities/leaderboard/ILeaderboard.interface';
+} from '../interfaces/leaderboard/ILeaderboard.interface';
 import { ITeams } from '../interfaces/teams/ITeams.interface';
-import MatchesRepository from '../repositories/matches/matches.repository';
+import { IMatchesRepository } from '../repositories/matches/IMatchesRepository';
 
 export default class LeaderBoard {
-  static async countGames(teams: ITeams, local: string) {
-    const getAllMatches = await MatchesRepository.getMatchByField(teams.id, local);
+  constructor(private matchesRepository: IMatchesRepository) { }
+
+  async countGames(teams: ITeams, local: string) {
+    const getAllMatches = await this.matchesRepository.getMatchByField(teams.id, local);
 
     const count = { wins: 0, draws: 0, losses: 0, homeGols: 0, awayGols: 0 } as ICountRanking;
 
@@ -29,10 +31,10 @@ export default class LeaderBoard {
     return LeaderBoard.calcRanking(count, teams);
   }
 
-  static async getTotalRanking(teams: ITeams) {
+  async getTotalRanking(teams: ITeams) {
     const count = { wins: 0, draws: 0, losses: 0, homeGols: 0, awayGols: 0 } as ICountRanking;
-    const home = await LeaderBoard.countGames(teams, 'homeTeam');
-    const away = await LeaderBoard.countGames(teams, 'awayTeam');
+    const home = await this.countGames(teams, 'homeTeam');
+    const away = await this.countGames(teams, 'awayTeam');
     count.homeGols += home.goalsFavor + away.goalsFavor;
     count.awayGols += home.goalsOwn + away.goalsOwn;
     count.wins += home.totalVictories + away.totalVictories;

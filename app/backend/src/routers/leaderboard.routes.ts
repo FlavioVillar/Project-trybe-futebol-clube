@@ -1,10 +1,10 @@
 import { Router } from 'express';
-import LeaderboardController from '../controllers/leaderboard/leaderboard.controller';
+import Leaderboard from '../factories/Leaderboard.factory';
 
 const router = Router();
 
-router.get('/leaderboard', LeaderboardController.getTotalRanking);
-router.get('/leaderboard/home', LeaderboardController.getHomeTeamRanking);
-router.get('/leaderboard/away', LeaderboardController.getAwayTeamRanking);
+router.get('/leaderboard', Leaderboard.controller().getTotalRanking);
+router.get('/leaderboard/home', Leaderboard.controller().getHomeTeamRanking);
+router.get('/leaderboard/away', Leaderboard.controller().getAwayTeamRanking);
 
 export default router;

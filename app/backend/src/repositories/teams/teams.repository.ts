@@ -1,7 +1,6 @@
 import TeamsModel from '../../database/models/teams.model';
 import { ITeamsRepository } from './ITeamsRepository';
 import { ITeams } from '../../interfaces/teams/ITeams.interface';
-// import Teams from '../../entities/teams/Teams';
 
 export default class TeamsRepository implements ITeamsRepository {
   constructor(private model = TeamsModel) { }
@@ -16,8 +15,8 @@ export default class TeamsRepository implements ITeamsRepository {
     return team as ITeams;
   }
 
-  static async getTeamByAttributes(): Promise<ITeams[]> {
-    const teams = await TeamsModel.findAll({ attributes: ['id', 'teamName'] });
+  async getTeamByAttributes(): Promise<ITeams[]> {
+    const teams = await this.model.findAll({ attributes: ['id', 'teamName'] });
     return teams as ITeams[];
   }
 }

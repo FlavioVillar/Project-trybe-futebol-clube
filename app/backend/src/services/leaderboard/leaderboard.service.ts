@@ -1,18 +1,26 @@
-import { ILeaderboardResult } from '../../entities/leaderboard/ILeaderboard.interface';
-import TeamsRepository from '../../repositories/teams/teams.repository';
+import { ILeaderboardResult, IField } from '../../interfaces/leaderboard/ILeaderboard.interface';
+// import { ILeaderboardService } from './ILeaderboardService';
 import LeaderBoard from '../../utils/leaderboard.utils';
+import { ITeamsRepository } from '../../repositories/teams/ITeamsRepository';
 
 export default class LeaderboardService {
-  static async getFieldRanking(local: string): Promise<ILeaderboardResult[]> {
-    const teams = await TeamsRepository.getTeamByAttributes();
-    const list = await Promise.all(teams.map(async (item) => LeaderBoard.countGames(item, local)));
+  constructor(
+    private teamsRepository: ITeamsRepository,
+    private leaderboard: LeaderBoard,
+  ) {}
+
+  async getFieldRanking(local: IField): Promise<ILeaderboardResult[]> {
+    const teams = await this.teamsRepository.getTeamByAttributes();
+    const list = await Promise.all(teams
+      .map(async (item) => this.leaderboard.countGames(item, local)));
     const results = await LeaderBoard.sortBoard(list);
     return results;
   }
 
-  static async getRanking(): Promise<ILeaderboardResult[]> {
-    const teams = await TeamsRepository.getTeamByAttributes();
-    const list = await Promise.all(teams.map(async (item) => LeaderBoard.getTotalRanking(item)));
+  async getRanking(): Promise < ILeaderboardResult[] > {
+    const teams = await this.teamsRepository.getTeamByAttributes();
+    const list = await Promise.all(teams
+      .map(async (item) => this.leaderboard.getTotalRanking(item)));
     const results = await LeaderBoard.sortBoard(list);
     return results;
   }

@@ -73,18 +73,9 @@ export default class MatchesRepository implements IMatchesRepository {
     return matches;
   }
 
-  static async getMatchByField(field: number | undefined, local: string) {
-    if (local === 'homeTeam') {
-      return MatchesModel
-        .findAll({ where: ({ homeTeam: field, inProgress: false }) });
-    }
-    if (local === 'awayTeam') {
-      return MatchesModel
-        .findAll({ where: { awayTeam: field, inProgress: false } });
-    }
-    if (local === 'total') {
-      return MatchesModel
-        .findAll({ where: { total: field, inProgress: false } });
-    }
+  async getMatchByField(teamId: number | undefined, local: string): Promise<IMatch[]> {
+    const matches = await this.matchesModel
+      .findAll({ where: { [local]: teamId, inProgress: false } });
+    return matches;
   }
 }
