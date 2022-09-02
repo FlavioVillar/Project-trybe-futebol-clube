@@ -59,10 +59,18 @@ Para realizar os testes de integração foram utilizados os frameworks Jest, Moc
 - Se você precisar redefinir o banco de dados, execute o comando: `npm run db:reset`
 
 
-    ## Testes
+* Testes
 
-Para executar os testes, devemos acessar o terminal dentro da pasta `app/backend`, e ter os containers docker rodando.
+  * Para executar os testes, acesse o terminal dentro da pasta `app/backend`, e tenha os containers docker rodando.
 
-Após verificar esses itens, execute o comando: `npm test`
+  * Após verificar esses itens, execute o comando: `npm test`
 
-Para rodar testes de cobertura no seu back-end, utilize o comando: `npm run test:coverage`
+  * Para rodar testes de cobertura utilize o comando: `npm run test:coverage`
+
+## Como ver o aplicativo funcionando
+Acesse http://localhost:3000, com todos os containers rodando.
+
+Para fazer o login, use seguintes credenciais:
+
+- `login: admin@admin.com`
+- `password: secret_admin`
