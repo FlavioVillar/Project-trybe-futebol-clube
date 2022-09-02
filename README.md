@@ -35,15 +35,13 @@ Todo o código que foi escrito por mim está dentro da pasta backend, a aplicaç
 
   O `TFC` é um site informativo sobre partidas e classificações de futebol! ⚽️
 
-Projeto que criar jogos de futebol, onde é possível editar os time que se enfrentam e também os resultados dos jogos, e todos jogos gerados são contabilizados em uma tabela de classificação, que organiza a classificação conforme regra de negócio estabelecida. Para adicionar uma partida é necessário  a pessoa deverá estar logada para fazer as alterações, e validações de login são feitas com um _token_.
+Projeto que criar jogos de futebol, onde é possível editar os time que se enfrentam e também os resultados dos jogos, e todos jogos gerados são contabilizados em uma tabela de classificação, que organiza a classificação conforme regra de negócio estabelecida. Para adicionar uma partida é necessário que a pessoa esteja logada para fazer as alterações, e as validações do login são feitas com um token gerado pelo JWT.
 
-Esta aplicação desenvolveu uma API (utilizando o método `TDD`) e também integra *- através do docker-compose -* as aplicações para que elas funcionem consumindo um banco de dados, e foi construído um back-end dockerizado utilizando modelagem de dados através do Sequelize, nonde a API é capaz de ser consumida por um front-end fornecido pela Trybe para este projeto.
-
-
+Esta aplicação desenvolveu uma API (utilizando o método `TDD`) e também integra - através do docker-compose - as aplicações para que elas funcionem consumindo um banco de dados, e foi construído um back-end dockerizado utilizando modelagem de dados através do Sequelize, nonde a API é capaz de ser consumida por um front-end fornecido pela Trybe para este projeto.
 
 Esta aplicação foi desenvolvida utilizando o Node.js, o framework Express.js e o Typescript, que consiste em um superconjunto Javascript, sempre buscando seguir os princípios do desenvolvimento orientado a testes.
 
-Para realizar os testes de integração foram utilizados os frameworks Jest, Mocha.js, Sinon.js e a biblioteca Chai. Senhas e informações confidenciais foram salvas no banco de dados após o uso da biblioteca bcrypt e as rotas foram validadas por meio do JWT. Este projeto foi desenvolvido seguindo os princípios SOLID, sempre com o objetivo de construir um código limpo e legível.
+Para realizar os testes de integração foram utilizados os frameworks Jest, Mocha.js, Sinon.js e a biblioteca Chai. Senhas e informações confidenciais foram salvas no banco de dados e as rotas foram validadas por meio do JWT. Este projeto foi desenvolvido seguindo os princípios SOLID, sempre com o objetivo de construir um código limpo e legível.
 
 
 # Orientações.
