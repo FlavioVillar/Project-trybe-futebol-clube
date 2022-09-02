@@ -1,16 +1,16 @@
 import { ILeaderboardResult, IField } from '../../interfaces/leaderboard/ILeaderboard.interface';
-// import { ILeaderboardService } from './ILeaderboardService';
+import { ILeaderboardService } from './ILeaderboardService';
 import LeaderBoard from '../../utils/leaderboard.utils';
 import { ITeamsRepository } from '../../repositories/teams/ITeamsRepository';
 
-export default class LeaderboardService {
+export default class LeaderboardService implements ILeaderboardService {
   constructor(
     private teamsRepository: ITeamsRepository,
     private leaderboard: LeaderBoard,
   ) {}
 
   async getFieldRanking(local: IField): Promise<ILeaderboardResult[]> {
-    const teams = await this.teamsRepository.getTeamByAttributes();
+    const teams = await this.teamsRepository.getTeams();
     const list = await Promise.all(teams
       .map(async (item) => this.leaderboard.countGames(item, local)));
     const results = await LeaderBoard.sortBoard(list);
@@ -18,7 +18,7 @@ export default class LeaderboardService {
   }
 
   async getRanking(): Promise < ILeaderboardResult[] > {
-    const teams = await this.teamsRepository.getTeamByAttributes();
+    const teams = await this.teamsRepository.getTeams();
     const list = await Promise.all(teams
       .map(async (item) => this.leaderboard.getTotalRanking(item)));
     const results = await LeaderBoard.sortBoard(list);

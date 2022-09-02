@@ -38,17 +38,17 @@ export default class MatchesRepository implements IMatchesRepository {
     return match;
   }
 
-  async updateMatch(match: string): Promise<void> {
-    await this.matchesModel.update({ inProgress: false }, { where: { id: match } });
+  async updateMatch(id: string): Promise<void> {
+    await this.matchesModel.update({ inProgress: false }, { where: { id } });
   }
 
-  async updateMatchInProgress(matchId: string, goals: IMatch): Promise<void> {
+  async updateMatchInProgress(id: string, goals: IMatch): Promise<void> {
     await this.matchesModel
       .update({
         homeTeamGoals: goals.homeTeamGoals,
         awayTeamGoals: goals.awayTeamGoals,
         inProgress: true,
-      }, { where: { id: matchId } });
+      }, { where: { id } });
   }
 
   async getMatchesQuery(query: boolean): Promise<IMatch[]> {
