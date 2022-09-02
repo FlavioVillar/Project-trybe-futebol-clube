@@ -1,13 +1,7 @@
-import { StatusCodes } from 'http-status-codes';
-import HttpException from '../../validation/HttpException';
 import MatchesModel from '../../database/models/matches.model';
 import TeamsModel from '../../database/models/teams.model';
 import { IMatchesRepository } from './IMatchesRepository';
-import Match from '../../entities/matches/Match';
-import { IMatchCreate } from '../../entities/matches/IMatch.interface';
-
-const messageUnauthorized = 'It is not possible to create a match with two equal teams';
-const messageNotFound = 'There is no team with such id!';
+import { IMatch } from '../../interfaces/matches/IMatch.interface';
 
 export default class MatchesRepository implements IMatchesRepository {
   constructor(
@@ -15,7 +9,7 @@ export default class MatchesRepository implements IMatchesRepository {
     private teamsModel = TeamsModel,
   ) { }
 
-  async getMatches(): Promise<Match[]> {
+  async getMatches(): Promise<IMatch[]> {
     const matches = await this.matchesModel.findAll({
       include: [{
         model: this.teamsModel,
@@ -32,17 +26,7 @@ export default class MatchesRepository implements IMatchesRepository {
     return matches;
   }
 
-  async createMatch(id: IMatchCreate): Promise<Match> {
-    if (id.homeTeam === id.awayTeam) {
-      throw new HttpException(StatusCodes.UNAUTHORIZED, messageUnauthorized);
-    }
-
-    const teamHome = await this.teamsModel.findOne({ where: { id: id.homeTeam } });
-    const teamAway = await TeamsModel.findOne({ where: { id: id.awayTeam } });
-    if (!teamHome || !teamAway) {
-      throw new HttpException(StatusCodes.NOT_FOUND, messageNotFound);
-    }
-
+  async createMatch(id: IMatch): Promise<IMatch> {
     const match = await this.matchesModel.create({
       homeTeam: id.homeTeam,
       awayTeam: id.awayTeam,
@@ -58,7 +42,7 @@ export default class MatchesRepository implements IMatchesRepository {
     await this.matchesModel.update({ inProgress: false }, { where: { id: match } });
   }
 
-  async updateMatchInProgress(matchId: string, goals: Match): Promise<void> {
+  async updateMatchInProgress(matchId: string, goals: IMatch): Promise<void> {
     await this.matchesModel
       .update({
         homeTeamGoals: goals.homeTeamGoals,
@@ -67,7 +51,7 @@ export default class MatchesRepository implements IMatchesRepository {
       }, { where: { id: matchId } });
   }
 
-  async getMatchesQuery(query: boolean): Promise<Match[]> {
+  async getMatchesQuery(query: boolean): Promise<IMatch[]> {
     const matches = await this.matchesModel.findAll({
       where: { inProgress: query },
       include: [{
@@ -84,7 +68,7 @@ export default class MatchesRepository implements IMatchesRepository {
     return matches;
   }
 
-  async getMatchByStatus(): Promise<Match[]> {
+  async getMatchByStatus(): Promise<IMatch[]> {
     const matches = await this.matchesModel.findAll({ where: { inProgress: false } });
     return matches;
   }

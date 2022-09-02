@@ -1,19 +1,19 @@
 import TeamsModel from '../../database/models/teams.model';
 import MatchesModel from '../../database/models/matches.model';
-import Match from '../../entities/matches/Match';
+import { IMatch } from '../../interfaces/matches/IMatch.interface';
 import { ITeams } from '../../interfaces/teams/ITeams.interface';
 import ILeaderboardRepository from './ILeaderboardRepository';
 
 export default class LeaderBoardRepository implements ILeaderboardRepository {
   constructor(private teamsModel = TeamsModel, private matchesModel = MatchesModel) { }
 
-  async getAllMatches(field: string): Promise<Match[]> {
+  async getAllMatches(field: string): Promise<IMatch[]> {
     const getAllMatches = await this.matchesModel
       .findAll({ where: { inProgress: false }, attributes: [field] });
     return getAllMatches;
   }
 
-  async getMatchesByTeamId(teamId: number): Promise<Match[]> {
+  async getMatchesByTeamId(teamId: number): Promise<IMatch[]> {
     const getAllMatches = await this.matchesModel
       .findAll({ where: { homeTeam: teamId, inProgress: false } });
     return getAllMatches;

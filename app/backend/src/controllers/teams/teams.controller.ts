@@ -9,7 +9,7 @@ export default class TeamController {
 
   async getTeamById(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const team = await this.teamsService.getTeamById(req.params.id);
+      const team = await this.teamsService.getTeamById(Number(req.params.id));
       res.status(200).json(team);
     } catch (error) {
       next(error);

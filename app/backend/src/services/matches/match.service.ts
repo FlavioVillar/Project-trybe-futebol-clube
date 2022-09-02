@@ -1,36 +1,52 @@
+import { StatusCodes } from 'http-status-codes';
+import HttpException from '../../validation/HttpException';
 import { IMatchesRepository } from '../../repositories/matches/IMatchesRepository';
-import Match from '../../entities/matches/Match';
-import { IMatchCreate } from '../../entities/matches/IMatch.interface';
+import { ITeamsRepository } from '../../repositories/teams/ITeamsRepository';
+import { IMatch } from '../../interfaces/matches/IMatch.interface';
 import { IMatchesService } from './IMatchService';
 
-export default class MatchesService implements IMatchesService {
-  constructor(private repository: IMatchesRepository) {}
+const messageUnauthorized = 'It is not possible to create a match with two equal teams';
+const messageNotFound = 'There is no team with such id!';
 
-  async getMatches(): Promise<Match[]> {
-    const matches = await this.repository.getMatches();
+export default class MatchesService implements IMatchesService {
+  constructor(
+    private matchRepository: IMatchesRepository,
+    private teamsRepository: ITeamsRepository,
+  ) { }
+
+  async getMatches(): Promise<IMatch[]> {
+    const matches = await this.matchRepository.getMatches();
     return matches;
   }
 
-  async createMatch(id: IMatchCreate): Promise<Match> {
-    const match = await this.repository.createMatch(id);
+  async createMatch(id: IMatch): Promise<IMatch> {
+    if (id.homeTeam === id.awayTeam) {
+      throw new HttpException(StatusCodes.UNAUTHORIZED, messageUnauthorized);
+    }
+    const teamHome = await this.teamsRepository.getTeamById(id.homeTeam);
+    const teamAway = await this.teamsRepository.getTeamById(id.awayTeam);
+    if (!teamHome || !teamAway) {
+      throw new HttpException(StatusCodes.NOT_FOUND, messageNotFound);
+    }
+    const match = await this.matchRepository.createMatch(id);
     return match;
   }
 
   async updateMatch(id: string): Promise<void> {
-    await this.repository.updateMatch(id);
+    await this.matchRepository.updateMatch(id);
   }
 
-  async updateMatchInProgress(id: string, goals: Match): Promise<void> {
-    await this.repository.updateMatchInProgress(id, goals);
+  async updateMatchInProgress(id: string, goals: IMatch): Promise<void> {
+    await this.matchRepository.updateMatchInProgress(id, goals);
   }
 
-  async getMatchesQuery(query: boolean): Promise<Match[]> {
-    const matches = await this.repository.getMatchesQuery(query);
+  async getMatchesQuery(query: boolean): Promise<IMatch[]> {
+    const matches = await this.matchRepository.getMatchesQuery(query);
     return matches;
   }
 
-  async getAllFinishedMatches(): Promise<Match[]> {
-    const matches = await this.repository.getMatchByStatus();
+  async getAllFinishedMatches(): Promise<IMatch[]> {
+    const matches = await this.matchRepository.getMatchByStatus();
     return matches;
   }
 }

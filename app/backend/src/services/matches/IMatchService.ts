@@ -1,11 +1,10 @@
-import Match from '../../entities/matches/Match';
-import { IMatchCreate } from '../../entities/matches/IMatch.interface';
+import { IMatch } from '../../interfaces/matches/IMatch.interface';
 
 export interface IMatchesService {
-  getMatches(): Promise<Match[]>;
-  createMatch(id: IMatchCreate): Promise<Match>;
+  getMatches(): Promise<IMatch[]>;
+  createMatch(id: IMatch): Promise<IMatch>;
   updateMatch(id: string): Promise<void>;
-  updateMatchInProgress(id: string, goals: Match): Promise<void>;
-  getMatchesQuery(query: boolean): Promise<Match[]>;
-  getAllFinishedMatches(): Promise<Match[]>;
+  updateMatchInProgress(id: string, goals: IMatch): Promise<void>;
+  getMatchesQuery(query: boolean): Promise<IMatch[]>;
+  getAllFinishedMatches(): Promise<IMatch[]>;
 }
