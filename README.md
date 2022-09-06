@@ -2,7 +2,7 @@
 
 Projeto desenvolvido por estudante durante o curso de desenvolvimento back-end da **Trybe**
 
-Projeto de com desenvolvimento de uma aplicação back-end capaz de se ligar à aplicação front-end, e fornecer os dados necessários para o seu correcto funcionamento.
+Projeto com desenvolvimento de uma aplicação back-end capaz de se ligar à aplicação front-end, e fornecer os dados necessários para o seu correcto funcionamento.
 
 Todo o código que foi escrito por mim está dentro da pasta backend, a aplicação front-end foi fornecida pela Trybe.
 
