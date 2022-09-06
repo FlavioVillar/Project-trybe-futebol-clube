@@ -1,6 +1,6 @@
 # Boas vindas ao repositório do Trybe Futebol Clube!
 
-Projeto desenvolvido por estudante durante o curso de desenvolvimento front-end da **Trybe**
+Projeto desenvolvido por estudante durante o curso de desenvolvimento back-end da **Trybe**
 
 Projeto de com desenvolvimento de uma aplicação back-end capaz de se ligar à aplicação front-end, e fornecer os dados necessários para o seu correcto funcionamento.
 
